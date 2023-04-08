@@ -60,6 +60,8 @@ namespace SQL
         }
         static void Main(string[] args)
         {
+          if (args.Length == 3)
+           {
             String sqlServer = args[0];
             String database = args[1];
             
@@ -74,11 +76,20 @@ namespace SQL
                 Program pr = new Program();
                 pr.impersonated(sqlServer, database);
             }
-            else
+            else if (args[2] == "query" & args.Length == 4)
             {
                 String command = args[3];
                 Program pr = new Program();
                 pr.exec(sqlServer, database, command);
+            }
+            else
+            {
+                    Console.WriteLine("Usage: sqlexecuter.exe sqlserver database auth/impersonated/query \"sqlquery if applicabale\" ");
+             }
+           }
+          else
+            {
+                Console.WriteLine("Usage: sqlexecuter.exe sqlserver database auth/impersonated/query \"sqlquery if applicabale\" ");
             }
             
         }
