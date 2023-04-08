@@ -46,12 +46,18 @@ namespace SQL
 
         static void Main(string[] args)
         {
+           if (args.Length == 3)
+            {
                 String database = args[1];
                 String sqlServer = args[0];
                 String cmdcmd = args[2];
                 Program pr = new Program();
                 pr.exec(sqlServer, database, cmdcmd);
-          
+            }
+           else {
+                Console.WriteLine("Usage: mssql-hex-executer.exe sqlserver database \"cmd to execute\" ");
+            }
+           
         }
 
     }
