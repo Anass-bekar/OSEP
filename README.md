@@ -3,9 +3,9 @@
 This is a code collection I developed to tackle the osep labs.
 
 ## commands.txt: 
-
+```
 List of commands that I found useful during my journey.
-
+```
 ## mssql-executer.cs:
 ```
 C# Code to execute sql queries on an sql server.
